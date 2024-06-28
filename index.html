@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fancy Interactive Resume</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <style id="theme-style">
+        /* Theme styles will be injected here */
+    </style>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            transition: all 0.3s ease;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            padding: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+        @keyframes shine {
+            0% { transform: translateX(-50%) rotate(45deg); }
+            100% { transform: translateX(150%) rotate(45deg); }
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        .section:hover {
+            transform: translateY(-5px);
+        }
+        .experience, .education-item, .project {
+            cursor: pointer;
+            padding: 10px 20px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+        .details {
+            display: none;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .show {
+            display: block;
+        }
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .skill {
+            flex: 1 1 calc(33% - 20px);
+            margin-bottom: 20px;
+        }
+        .skill-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .skill-bar {
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .skill-progress {
+            height: 100%;
+            width: 0;
+            transition: width 1s ease-out;
+        }
+        nav {
+            position: fixed;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            z-index: 1000;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        nav li {
+            margin-bottom: 10px;
+        }
+        nav a {
+            display: block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        nav a:hover, nav a.active {
+            transform: scale(1.5);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#header" class="active"></a></li>
+            <li><a href="#about"></a></li>
+            <li><a href="#education"></a></li>
+            <li><a href="#experience"></a></li>
+            <li><a href="#skills"></a></li>
+            <li><a href="#projects"></a></li>
+            <li><a href="#contact"></a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <header id="header">
+            <h1>Ho Ko</h1>
+            <p>A Non-AI working on AI</p>
+        </header>
+
+        <section id="about" class="section">
+            <h2>About Me</h2>
+            <p>Just a non-AI</p>
+        </section>
+
+        <section id="education" class="section">
+			<h2>Education</h2>
+			<div class="education-item" onclick="toggleDetails(this)">
+				<h3>Master of Science in Computer Science</h3>
+				<p>University of Southern California, Los Angeles, California, May 2023</p>
+				<div class="details">
+					<p>• Specialization in Artificial Intelligence</p>
+					<p>• GPA: 3.9 / 4.0</p>
+				</div>
+			</div>
+			<div class="education-item" onclick="toggleDetails(this)">
+				<h3>Master of Engineering in Electrical and Computer Engineering</h3>
+				<p>University of Waterloo, Waterloo, Ontario, August 2021</p>
+				<div class="details">
+					<p>• Specialization in Artificial Intelligence and Machine Learning</p>
+					<p>• GPA: 3.9 / 4.0</p>
+				</div>
+			</div>
+			<div class="education-item" onclick="toggleDetails(this)">
+				<h3>Exchange Program in Electrical and Computer Engineering</h3>
+				<p>Hong Kong University of Science and Technology, Clear Water Bay, Hong Kong, June 2019</p>
+				<div class="details">
+					<p>• GPA: 3.6 / 4.0</p>
+				</div>
+			</div>
+			<div class="education-item" onclick="toggleDetails(this)">
+				<h3>Bachelor of Science in Computer Science and Information Engineering</h3>
+				<p>National Central University, Taoyuan, Taiwan, June 2019</p>
+				<div class="details">
+					<p>• GPA: 3.8 / 4.0</p>
+				</div>
+			</div>
+		</section>
+
+        <section id="experience" class="section">
+			<h2>Experience</h2>
+			<div class="experience" onclick="toggleDetails(this)">
+				<h3>Software Engineer Intern - Google</h3>
+				<p>May 2022 - August 2022</p>
+				<div class="details">
+					<p>• Developed TFlite model tensor extractor and metadata writer.</p>
+					<p>• Established a comprehensive rule and incorporated into an identifier to classify ML model use cases with hierarchy rule applying approach which covers 100% of common tasks published in task library.</p>
+					<p>• Utilized tensor extractor, metadata writer, task identifier along with other corresponding tools and integrated a C++ code generator which automatically produce C++ and Python inference codes for any common TFlite models.</p>
+				</div>
+			</div>
+			<div class="experience" onclick="toggleDetails(this)">
+				<h3>AI Engineer and Researcher - Ubiik</h3>
+				<p>Jan 2020 - May 2020</p>
+				<div class="details">
+					<p>• Collected and analyzed satellite images, extracted patterns and physical meaning by machine learning models to predict cloud movements.</p>
+					<p>• Conducted machine learning models to estimate and predict solar panel production rate in any given location in the nation with an average accuracy of over 99%.</p>
+					<p>• Analyzed the data contribution ratio within the blackbox of DNN models, and backtracked the reliability of the source.</p>
+				</div>
+			</div>
+			<div class="experience" onclick="toggleDetails(this)">
+				<h3>Back-end Developer - Brilltek</h3>
+				<p>Dec 2019 - June 2020</p>
+				<div class="details">
+					<p>• Developed a back-end system to monitor and manage a CNC machining factory in Vietnam.</p>
+					<p>• Designed resource flow and worker's SOP to improve performance and increase labor safety.</p>
+					<p>• Optimized resource distribution and usage priority to keep the factory sustainable without supervisory control.</p>
+				</div>
+			</div>
+			<div class="experience" onclick="toggleDetails(this)">
+				<h3>Research Assistant - Caltech</h3>
+				<p>June 2018 - Aug 2018</p>
+				<div class="details">
+					<p>• Collected and classified transient astronomical events from Zwicky Transient Facility data which scan ⅔ of the sky per night.</p>
+					<p>• Studied a specific Type IIB Supernova transient event by first track and record event progress with P200 telescope, SWIFT ultraviolet telescope, and KECK spectrum telescope.</p>
+					<p>• Estimated the mass ejection and energy released with models and simulations, and investigated two peaks found in Type IIB Supernovae.</p>
+				</div>
+			</div>
+			<div class="experience" onclick="toggleDetails(this)">
+				<h3>Intern Engineer - SilverDome Security</h3>
+				<p>July 2017 - Aug 2018</p>
+				<div class="details">
+					<p>• Utilized honeypot to track and record the suspicious emails, login attempts, port scanning and attempt of connection, and transferred live data into database(Elasticsearch) with hierarchical data structure.</p>
+					<p>• Analyzed data from Elasticsearch database to determine malicious user behavior to protect users from browsing phishing or malicious websites, and filtered dangerous hyperlinks in emails by the knowledge previously collected.</p>
+				</div>
+			</div>
+			<div class="experience" onclick="toggleDetails(this)">
+				<h3>Teaching Assistant - National Central University, Department of EE and CS</h3>
+				<p>Sep 2016 - Feb 2017</p>
+				<div class="details">
+					<p><em>Top institution in Taiwan</em></p>
+					<p>• Designed problem sets to let students practice C and C++ for specific algorithms concepts such as sorting, mapping data structures online.</p>
+					<p>• Determined the edge cases to examine common programmers' mistakes.</p>
+					<p>• Analysed and corrected 50 students' programs, and assisted problems that students encounters during laboratory sessions.</p>
+				</div>
+			</div>
+			<div class="experience" onclick="toggleDetails(this)">
+				<h3>Research Assistant - National Central University, Department of EE and CS</h3>
+				<p>Aug 2016 - Aug 2016</p>
+				<div class="details">
+					<p><em>Top institution in Taiwan</em></p>
+					<p>• Simulated different network topologies with mininet and virtual machines to optimize 5G technology.</p>
+					<p>• Established vRouter and vSwitch with SDN approach by ONOS, Openflow, mininet and Quagga.</p>
+				</div>
+			</div>
+		</section>
+
+        <section id="skills" class="section">
+            <h2>Skills</h2>
+            <div class="skills-container">
+                <div class="skill">
+                    <div class="skill-name">HTML5/CSS3</div>
+                    <div class="skill-bar"><div class="skill-progress" data-progress="90"></div></div>
+                </div>
+                <div class="skill">
+                    <div class="skill-name">JavaScript</div>
+                    <div class="skill-bar"><div class="skill-progress" data-progress="85"></div></div>
+                </div>
+                <div class="skill">
+                    <div class="skill-name">React</div>
+                    <div class="skill-bar"><div class="skill-progress" data-progress="80"></div></div>
+                </div>
+                <div class="skill">
+                    <div class="skill-name">UI/UX Design</div>
+                    <div class="skill-bar"><div class="skill-progress" data-progress="75"></div></div>
+                </div>
+                <div class="skill">
+                    <div class="skill-name">Responsive Design</div>
+                    <div class="skill-bar"><div class="skill-progress" data-progress="95"></div></div>
+                </div>
+                <div class="skill">
+                    <div class="skill-name">Adobe Creative Suite</div>
+                    <div class="skill-bar"><div class="skill-progress" data-progress="70"></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="section">
+			<h2>Projects</h2>
+			<div class="project" onclick="toggleDetails(this)">
+				<h3>Weather, Cloud Distribution, Satellite Image Prediction</h3>
+				<p>Jan 2020 - May 2020</p>
+				<div class="details">
+					<p>• Designed and created models for various weather-related predictions for solar power output estimation.</p>
+					<p>• Achieved prediction accuracy over 99% for solar power output estimation.</p>
+					<p>• Worked with satellite imagery and cloud distribution data to enhance prediction models.</p>
+				</div>
+			</div>
+			<div class="project" onclick="toggleDetails(this)">
+				<h3>Auto Driving Car</h3>
+				<p>Oct 2020 - Dec 2020</p>
+				<div class="details">
+					<p>• Designed a novel evolutionary algorithm for autonomous driving tasks.</p>
+					<p>• Implemented and tested the algorithm, achieving better results than traditional genetic algorithms.</p>
+					<p>• Focused on optimizing decision-making processes for various driving scenarios.</p>
+				</div>
+			</div>
+			<div class="project" onclick="toggleDetails(this)">
+				<h3>Artificial Life Simulation</h3>
+				<p>March 2017 - May 2017</p>
+				<div class="details">
+					<p>• Developed a simulation of evolving creatures in a limited resource environment.</p>
+					<p>• Implemented algorithms for creature behavior, reproduction, and resource competition.</p>
+					<p>• Analyzed emerging patterns and behaviors in the artificial ecosystem.</p>
+				</div>
+			</div>
+			<div class="project" onclick="toggleDetails(this)">
+				<h3>Tetris AI</h3>
+				<p>Oct 2016 - Jan 2017</p>
+				<div class="details">
+					<p>• Developed a Tetris game in Assembly language.</p>
+					<p>• Implemented a self-learning AI capable of playing Tetris autonomously.</p>
+					<p>• Optimized AI performance through iterative learning algorithms.</p>
+				</div>
+			</div>
+			<div class="project" onclick="toggleDetails(this)">
+				<h3>Type IIb Supernova Research</h3>
+				<p>Jun 2018 - Aug 2018</p>
+				<div class="details">
+					<p>• Conducted research on a Type IIb Supernova from a very extended low-mass progenitor at Caltech.</p>
+					<p>• Co-authored a paper published in The Astrophysical Journal Letters, 878:L5 (12pp).</p>
+					<p>• Analyzed data from various telescopes and contributed to the theoretical modeling.</p>
+				</div>
+			</div>
+			<div class="project" onclick="toggleDetails(this)">
+				<h3>Facial Recognition and Tracking System</h3>
+				<p>Oct 2017 - Dec 2017</p>
+				<div class="details">
+					<p>• Led the development of a real-time facial recognition and tracking system.</p>
+					<p>• Implemented algorithms for face detection, identity determination, and tracking.</p>
+					<p>• Optimized the system for real-time performance on standard hardware.</p>
+				</div>
+			</div>
+			<div class="project" onclick="toggleDetails(this)">
+				<h3>Fall Detection for IoT Cameras</h3>
+				<p>Jul 2021 - Aug 2021</p>
+				<div class="details">
+					<p>• Developed a fall detection model optimized for low-cost IoT cameras.</p>
+					<p>• Designed the system to automatically alert healthcare providers in case of detected falls.</p>
+					<p>• Focused on minimizing false positives while maintaining high detection accuracy.</p>
+				</div>
+			</div>
+			<div class="project" onclick="toggleDetails(this)">
+				<h3>AI Art Generation</h3>
+				<p>Jul 2021 - Aug 2021</p>
+				<div class="details">
+					<p>• Led a team in developing AI-powered art generation techniques.</p>
+					<p>• Customized and implemented variations of the STYLE-GAN model for unique artistic outputs.</p>
+					<p>• Created a user-friendly interface for generating and customizing AI art.</p>
+				</div>
+			</div>
+			<div class="project" onclick="toggleDetails(this)">
+				<h3>Stock Market Simulator with AI Agents</h3>
+				<p>Mar 2017 - May 2017</p>
+				<div class="details">
+					<p>• Developed a stock market simulator featuring 100 fully automated AI trading agents.</p>
+					<p>• Implemented evolutionary algorithms to improve AI trading strategies over time.</p>
+					<p>• Analyzed emerging patterns and strategies developed by the AI agents.</p>
+				</div>
+			</div>
+			<div class="project" onclick="toggleDetails(this)">
+				<h3>Liver Cancer Survival Prediction</h3>
+				<p>Mar 2019 - May 2019</p>
+				<div class="details">
+					<p>• Led a team in developing a liver cancer survival prediction model based on genetic data.</p>
+					<p>• Achieved 75-80% accuracy in predicting long vs. short survival after liver cancer diagnosis.</p>
+					<p>• Utilized statistical and machine learning approaches to analyze genetic sequences and mutations.</p>
+				</div>
+			</div>
+			<div class="project" onclick="toggleDetails(this)">
+				<h3>Restaurant Advertisement Integrity Analysis</h3>
+				<p>Mar 2019 - May 2019</p>
+				<div class="details">
+					<p>• Developed a model to predict the correlation between restaurant advertisements and actual quality.</p>
+					<p>• Analyzed Yelp dataset to determine relationships between prices, listed properties, and user comments.</p>
+					<p>• Created a scoring system to quantify the integrity of restaurant descriptions.</p>
+				</div>
+			</div>
+			<div class="project" onclick="toggleDetails(this)">
+				<h3>Modular Upgrade System in Unity 3D</h3>
+				<p>Mar 2019 - May 2019</p>
+				<div class="details">
+					<p>• Led the design and implementation of an extendable module upgrade system in Unity 3D.</p>
+					<p>• Inspired by the game "The Binding of Isaac", created a system allowing infinite upgrade combinations.</p>
+					<p>• Developed a flexible architecture to easily add new upgrades and effects.</p>
+				</div>
+			</div>
+			<div class="project" onclick="toggleDetails(this)">
+				<h3>Factory Management System</h3>
+				<p>Dec 2019 - June 2020</p>
+				<div class="details">
+					<p>• Designed and implemented a safety procedure and progress confirmation system for CNC factories.</p>
+					<p>• Developed a multi-level permission access system for multiple companies.</p>
+					<p>• Utilized Node.js, SQL, and Python to create a robust backend system.</p>
+				</div>
+			</div>
+			<div class="project" onclick="toggleDetails(this)">
+				<h3>M(L)ove - Dance Move Evaluation</h3>
+				<p>Jan 2021</p>
+				<div class="details">
+					<p>• Led a team in developing an AI-powered dance move evaluation system for Hack the North.</p>
+					<p>• Implemented pose extraction from video clips to analyze similarity with reference dances.</p>
+					<p>• Created a scoring system to evaluate dance performances across entire songs.</p>
+				</div>
+			</div>
+			<div class="project" onclick="toggleDetails(this)">
+				<h3>Movie Genre Classification / Chatroom Atmosphere Analysis</h3>
+				<p>Mar 2018 - Jun 2018</p>
+				<div class="details">
+					<p>• Developed a model for classifying movie genres and analyzing chatroom atmospheres.</p>
+					<p>• Designed specialized hierarchical models trained on over 50,000 movie subtitles.</p>
+					<p>• Achieved an F1 score higher than 90% for atmosphere determination from chat history.</p>
+				</div>
+			</div>
+			<div class="project" onclick="toggleDetails(this)">
+				<h3>AI Music Generator</h3>
+				<p>Mar 2018 - May 2018</p>
+				<div class="details">
+					<p>• Contributed to the development of an AI-powered music generation system.</p>
+					<p>• Initially used Seq-GAN for music generation, later updated to PRNN for improved performance.</p>
+					<p>• Focused on generating coherent and pleasing musical compositions autonomously.</p>
+				</div>
+			</div>
+			<div class="project" onclick="toggleDetails(this)">
+				<h3>Conversational Human-Computer Interface</h3>
+				<p>Nov 2017 - May 2018</p>
+				<div class="details">
+					<p>• Developed a conversational interface for complex computer tasks.</p>
+					<p>• Implemented Named Entity Recognition and integrated various APIs for task execution.</p>
+					<p>• Focused on natural language understanding for email operations and other complex tasks.</p>
+				</div>
+			</div>
+			<div class="project" onclick="toggleDetails(this)">
+				<h3>Dynamic Pricing System</h3>
+				<p>Aug 2016 - Jan 2017</p>
+				<div class="details">
+					<p>• Developed an automated pricing system using PID (Proportional-Integral-Derivative) controllers.</p>
+					<p>• Implemented iterative price adjustments based on market conditions and inventory levels.</p>
+					<p>• Optimized the system for various product categories and market scenarios.</p>
+				</div>
+			</div>
+			<div class="project" onclick="toggleDetails(this)">
+				<h3>Console Game Collection</h3>
+				<p>Oct 2015 - Jan 2016</p>
+				<div class="details">
+					<p>• Developed a collection of 5 console-based games as a first-year C++ project.</p>
+					<p>• Implemented various game mechanics and user interfaces within console limitations.</p>
+					<p>• Focused on code organization and efficiency in a constrained environment.</p>
+				</div>
+			</div>
+			<div class="project" onclick="toggleDetails(this)">
+				<h3>Neural Network Data Classification Visualizer</h3>
+				<p>Oct 2016 - Jan 2017</p>
+				<div class="details">
+					<p>• Created a visualization tool for data classification using Neural Networks.</p>
+					<p>• Developed as part of a Neural Networks course at NCU.</p>
+					<p>• Implemented various visualization techniques to help understand NN decision boundaries.</p>
+				</div>
+			</div>
+		</section>
+
+        <section id="contact" class="section">
+            <h2>Contact</h2>
+            <p>Email: woodyhoko@gmail.com</p>
+            <p>Phone: (626) 731-7537</p>
+            <p>Location: Bay Area, CA</p>
+        </section>
+    </div>
+
+    <script>
+        const themes = [
+    {
+        name: 'Modern Minimal',
+        primaryColor: '#3498db',
+        secondaryColor: '#2c3e50',
+        backgroundColor: '#f5f7fa',
+        textColor: '#34495e',
+        sectionBackground: '#ffffff'
+    },
+    {
+        name: 'Midnight Elegance',
+        primaryColor: '#a67c00',
+        secondaryColor: '#34495e',
+        backgroundColor: '#1a1a2e',
+        textColor: '#e0e0e0',
+        sectionBackground: '#16213e'
+    },
+    {
+        name: 'Forest Serenity',
+        primaryColor: '#2ecc71',
+        secondaryColor: '#2c3e50',
+        backgroundColor: '#e8f5e9',
+        textColor: '#333333',
+        sectionBackground: '#ffffff'
+    },
+    {
+        name: 'Sunset Horizon',
+        primaryColor: '#e74c3c',
+        secondaryColor: '#34495e',
+        backgroundColor: '#fff0e6',
+        textColor: '#333333',
+        sectionBackground: '#fff8f5'
+    },
+    {
+        name: 'Ocean Breeze',
+        primaryColor: '#00acc1',
+        secondaryColor: '#006064',
+        backgroundColor: '#e0f7fa',
+        textColor: '#263238',
+        sectionBackground: '#ffffff'
+    },
+    {
+        name: 'Lavender Dreams',
+        primaryColor: '#9c27b0',
+        secondaryColor: '#4a148c',
+        backgroundColor: '#f3e5f5',
+        textColor: '#311b92',
+        sectionBackground: '#ffffff'
+    },
+    {
+        name: 'Golden Age',
+        primaryColor: '#ffc107',
+        secondaryColor: '#ff6f00',
+        backgroundColor: '#fffde7',
+        textColor: '#33291a',
+        sectionBackground: '#fff8e1'
+    },
+    {
+        name: 'Cherry Blossom',
+        primaryColor: '#ff4081',
+        secondaryColor: '#c2185b',
+        backgroundColor: '#fce4ec',
+        textColor: '#880e4f',
+        sectionBackground: '#ffffff'
+    },
+    {
+        name: 'Twilight Sky',
+        primaryColor: '#5e35b1',
+        secondaryColor: '#311b92',
+        backgroundColor: '#ede7f6',
+        textColor: '#1a237e',
+        sectionBackground: '#ffffff'
+    },
+    {
+        name: 'Autumn Warmth',
+        primaryColor: '#ff5722',
+        secondaryColor: '#bf360c',
+        backgroundColor: '#fbe9e7',
+        textColor: '#3e2723',
+        sectionBackground: '#ffffff'
+    },
+    {
+        name: 'Nordic Frost',
+        primaryColor: '#90caf9',
+        secondaryColor: '#1976d2',
+        backgroundColor: '#e3f2fd',
+        textColor: '#0d47a1',
+        sectionBackground: '#ffffff'
+    },
+    {
+        name: 'Emerald City',
+        primaryColor: '#00897b',
+        secondaryColor: '#004d40',
+        backgroundColor: '#e0f2f1',
+        textColor: '#1b5e20',
+        sectionBackground: '#ffffff'
+    },
+    {
+        name: 'Desert Oasis',
+        primaryColor: '#ff9800',
+        secondaryColor: '#e65100',
+        backgroundColor: '#fff3e0',
+        textColor: '#3e2723',
+        sectionBackground: '#ffffff'
+    },
+    {
+        name: 'Cosmic Night',
+        primaryColor: '#7e57c2',
+        secondaryColor: '#4527a0',
+        backgroundColor: '#141414',
+        textColor: '#e0e0e0',
+        sectionBackground: '#212121'
+    },
+    {
+        name: 'Tropical Paradise',
+        primaryColor: '#00e676',
+        secondaryColor: '#00c853',
+        backgroundColor: '#e8f5e9',
+        textColor: '#1b5e20',
+        sectionBackground: '#ffffff'
+    },
+    {
+        name: 'Urban Chic',
+        primaryColor: '#607d8b',
+        secondaryColor: '#37474f',
+        backgroundColor: '#eceff1',
+        textColor: '#263238',
+        sectionBackground: '#ffffff'
+    },
+    {
+        name: 'Vintage Charm',
+        primaryColor: '#bcaaa4',
+        secondaryColor: '#795548',
+        backgroundColor: '#efebe9',
+        textColor: '#3e2723',
+        sectionBackground: '#ffffff'
+    },
+    {
+        name: 'Neon Nights',
+        primaryColor: '#00e5ff',
+        secondaryColor: '#00b8d4',
+        backgroundColor: '#18191a',
+        textColor: '#e0e0e0',
+        sectionBackground: '#202124'
+    },
+    {
+        name: 'Pastel Dream',
+        primaryColor: '#ffcdd2',
+        secondaryColor: '#f8bbd0',
+        backgroundColor: '#f3e5f5',
+        textColor: '#4a148c',
+        sectionBackground: '#ffffff'
+    },
+    {
+        name: 'Tech Futura',
+        primaryColor: '#64ffda',
+        secondaryColor: '#00bfa5',
+        backgroundColor: '#e0f2f1',
+        textColor: '#004d40',
+        sectionBackground: '#ffffff'
+    }
+];
+        function applyTheme(theme) {
+            const style = document.getElementById('theme-style');
+            style.textContent = `
+                body {
+                    background-color: ${theme.backgroundColor};
+                    color: ${theme.textColor};
+                }
+                header {
+                    background-color: ${theme.primaryColor};
+                    color: ${theme.sectionBackground};
+                }
+                h1, h2 {
+                    color: ${theme.secondaryColor};
+                }
+                .section {
+                    background-color: ${theme.sectionBackground};
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                }
+                .section:hover {
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                }
+                .experience, .education-item, .project {
+                    border-left: 4px solid ${theme.primaryColor};
+                }
+                .experience:hover, .education-item:hover, .project:hover {
+                    background-color: ${theme.backgroundColor};
+                }
+                .details {
+                    background-color: ${theme.backgroundColor};
+                }
+                .skill-bar {
+                    background-color: ${theme.backgroundColor};
+                }
+                .skill-progress {
+                    background-color: ${theme.primaryColor};
+                }
+                nav a {
+                    background-color: ${theme.secondaryColor};
+                }
+                nav a:hover, nav a.active {
+                    background-color: ${theme.primaryColor};
+                }
+            `;
+        }
+
+        function randomTheme() {
+            const randomIndex = Math.floor(Math.random() * themes.length);
+            applyTheme(themes[randomIndex]);
+        }
+
+        function toggleDetails(element) {
+			const details = element.querySelector('.details');
+			if (details.classList.contains('show')) {
+				gsap.to(details, {
+					height: 0, 
+					opacity: 0, 
+					duration: 0.5, 
+					onComplete: () => {
+						details.classList.remove('show');
+						details.style.display = 'none'; // Hide the element
+					}
+				});
+			} else {
+				details.style.display = 'block'; // Show the element
+				details.classList.add('show');
+				// Get the natural height of the content
+				const height = details.scrollHeight;
+				gsap.fromTo(details, 
+					{height: 0, opacity: 0},
+					{height: height, opacity: 1, duration: 0.5}
+				);
+			}
+		}
+
+        function animateSkills() {
+            const skills = document.querySelectorAll('.skill-progress');
+            skills.forEach(skill => {
+                const progress = skill.getAttribute('data-progress');
+                gsap.to(skill, {width: `${progress}%`, duration: 1.5, ease: "power2.out"});
+            });
+        }
+
+        function updateActiveNavItem() {
+			let header = document.getElementById('header');
+            let sections = document.querySelectorAll('.section');
+			sections = Array.from(sections);
+			// Add header to the beginning of the array
+			sections.unshift(header);
+
+            const navItems = document.querySelectorAll('nav a');
+
+            sections.forEach((section, index) => {
+				const rect = section.getBoundingClientRect();
+				if (rect.top <= 100 && rect.bottom > 100) {
+					navItems.forEach(item => item.classList.remove('active'));
+					navItems[index].classList.add('active');
+				}
+			});
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            randomTheme();
+            animateSkills();
+            window.addEventListener('scroll', updateActiveNavItem);
+        });
+
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                window.scrollTo({
+                    top: targetElement.offsetTop - 20,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
